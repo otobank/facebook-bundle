@@ -1,0 +1,22 @@
+{
+    "name": "otobank/facebook-bundle",
+    "description": "Facebook-auth for Symfony",
+    "homepage": "https://github.com/otobank",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Keisuke Sato",
+            "email": "ksato@otobank.co.jp"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "facebook/php-sdk-v4": "~5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otobank\\Bundle\\FacebookBundle\\": ""
+        }
+    }
+}

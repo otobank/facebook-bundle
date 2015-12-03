@@ -1,0 +1,41 @@
+services:
+    otobank_facebook.authenticator:
+        class: Otobank\Bundle\FacebookBundle\Security\FacebookAuthenticator
+        arguments: ["@otobank_facebook.facebook", "@logger"]
+
+    otobank_facebook.user_provider:
+        class: Otobank\Bundle\FacebookBundle\Security\User\FacebookUserProvider
+        arguments: ["@otobank_facebook.facebook", "@logger"]
+        public: false
+
+    otobank_facebook.authentication_provider:
+        class: Otobank\Bundle\FacebookBundle\Security\Authentication\FacebookProvider
+        arguments: ["@otobank_facebook.user_provider"]
+        public: false
+
+    otobank_facebook.authentication_listener:
+        class: Otobank\Bundle\FacebookBundle\Security\Firewall\FacebookListener
+        arguments:
+            - "@otobank_facebook.facebook"
+            - "@security.token_storage"
+            - "@security.authentication.manager"
+            - "@logger"
+        public: false
+
+    otobank_facebook.session_persistent_data_handler:
+        class: Otobank\Bundle\FacebookBundle\Facebook\PersistentData\FacebookSessionPersistentDataHandler
+        arguments:
+            - "@session"
+        public: false
+
+    otobank_facebook.facebook:
+        class: Facebook\Facebook
+        arguments:
+            -
+                app_id: "%facebook_appid%"
+                app_secret: "%facebook_secret%"
+                default_graph_version: "v2.5"
+                persistent_data_handler: "@otobank_facebook.session_persistent_data_handler"
+        calls:
+            - [ "setDefaultAccessToken", [ "%facebook_appid%|%facebook_secret%"  ] ]
+
